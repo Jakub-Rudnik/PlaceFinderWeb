@@ -5,26 +5,76 @@
 }
 
 <div id="map" class="h-full w-full"></div>
+<div class="fixed bottom-0 z-[1000] w-full bg-white rounded-t-[20px] flex flex-col border-gray-300 border-2 transition-transform" id="placesModal">
+     <div class="flex w-full items-center justify-center hover:bg-gray-200 hover:cursor-pointer" id="showHidePlaces" data-open="1" title="Otwórz/Zamknij panel z miejscami">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition-transform" id="arrowIcon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+        </svg>
+    </div>
+    <div class="flex items-center justify-center gap-5 p-5" id="placesContainer">
+        @foreach (var place in Model.Places)
+            {
+                <div class="flex items-right justify-center gap-4 focus:ring-red-600 rounded-xl border-2 border-gray-300 p-4 hover:cursor-pointer hover:bg-gray-200 transition place focus:ring-2 focus:ring-inset focus:ring-red-600" data-latitude="@place.Latitude" data-longitude="@place.Longitude" data-popup="@place.Id"> 
+                    <img src="@place.ImageUrl" class="w-full h-24 w-24 object-cover rounded-lg">
+                    <div class="flex flex-col items-start justify-right">
+                        <h2 class="text-xl font-bold">@place.Name</h2>
+                        <p class="m-none">@place.Description</p>
+                    </div>
+                </div>
+            }
+    </div>
+    
+</div>
 
 <script>
-    let map = L.map('map').setView([50.667730, 17.928600], 13);
+    let map = L.map('map').setView([50.667730, 17.928600], 10);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
+        maxZoom: 20,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
-
-   @foreach (var place in Model.Places)
-   {
-       <text>
-            L.marker([@place.Latitude, @place.Longitude]).addTo(map)
-            .bindPopup(`
-                <div class="flex flex-col items-right justify-center gap-4 w-full">
-                <img src="@place.ImageUrl" class="w-full h-32 object-cover rounded-lg">
-                <h2 class="text-xl font-bold">@place.Name</h2>
-                <p class="m-none">@place.Description</p>
-                </div>
-            `);
+   
+    
+    let popups = [];
+    @foreach (var place in Model.Places)
+    {   
+        <text>
+            popups.push(new L.popup([@place.Latitude, @place.Longitude], {content: `
+               <div class="flex flex-col items-right justify-center gap-4 w-full">
+                   <img src="@place.ImageUrl" class="w-full h-32 object-cover rounded-lg">
+                   <h2 class="text-xl font-bold">@place.Name</h2>
+                   <p class="m-none">@place.Description</p>
+               </div>
+           `}));
+            L.marker([@place.Latitude, @place.Longitude]).addTo(map).bindPopup(popups[popups.length - 1]);
+            //.bindPopup(popups[popups.length-1]);
         </text>
-   }
+    }
+    
+    const places = document.querySelectorAll(".place");
+    
+    places.forEach(place => place.addEventListener("click", (e) => {
+        popups[Number(place.dataset.popup) - 1].toggle();
+        map.setView([place.dataset.latitude, place.dataset.longitude]) 
+    }));
+    
+    const placesBtn = document.querySelector("#showHidePlaces");
+    const arrowIcon = document.querySelector("#arrowIcon");
+    const placesModal = document.querySelector("#placesModal");
+    const placesContainer = document.querySelector("#placesContainer");
+    
+    placesBtn.addEventListener("click", (e) => {
+        const height = placesContainer.clientHeight;
+        
+        if (e.target.dataset.open === "1") {
+            placesModal.style.transform = `translateY(${height}px)`
+            e.target.dataset.open = "0";
+            arrowIcon.classList.add("rotate-180");
+            
+        } else {
+            placesModal.style.transform = `translateY(0)`;
+            e.target.dataset.open = "1";
+            arrowIcon.classList.remove("rotate-180");
+        }
+    })
 </script>
