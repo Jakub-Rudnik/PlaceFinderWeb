@@ -151,3 +151,13 @@ body {
   top: 10px !important;
   right: 9px !important;
 }
+
+.placesModal {
+  height: calc(100% - 56px)
+}
+
+@media (min-width: 640px) {
+  .placesModal {
+    height: auto;
+  }
+}
