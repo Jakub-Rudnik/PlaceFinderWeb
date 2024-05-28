@@ -43,17 +43,25 @@
 <script>
     let state = {
         currClickedPlace: null
-    }
-
+    };
     let map = L.map('map').setView([50.667730, 17.928600], 10);
+    let popups = [];
+    const places = document.querySelectorAll(".place");
+    const placesBtn = document.querySelector("#showHidePlaces");
+    const arrowIcon = document.querySelector("#arrowIcon");
+    const placesModal = document.querySelector("#placesModal");
+    const placesContainer = document.querySelector("#placesContainer");
+    const PLACES_MODAL_TOP_BAR_HEIGHT = document.querySelector("#showHidePlaces").clientHeight; 
+    
+    function getModalHeight() {
+        return placesModal.clientHeight - PLACES_MODAL_TOP_BAR_HEIGHT;
+    }
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 20,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
    
-    
-    let popups = [];
     @foreach (var place in Model.Places)
     {   
         <text>
@@ -68,8 +76,6 @@
             //.bindPopup(popups[popups.length-1]);
         </text>
     }
-    
-    const places = document.querySelectorAll(".place");
     
     places.forEach(place => place.addEventListener("click", (e) => {
         const placeId = Number(place.dataset.popup);
@@ -90,16 +96,11 @@
         map.setView([place.dataset.latitude, place.dataset.longitude])
     }));
     
-    const placesBtn = document.querySelector("#showHidePlaces");
-    const arrowIcon = document.querySelector("#arrowIcon");
-    const placesModal = document.querySelector("#placesModal");
-    const placesContainer = document.querySelector("#placesContainer");
-    
     placesBtn.addEventListener("click", (e) => {
-        const height = placesContainer.clientHeight;
+        console.log("aaaa")
         
         if (e.target.dataset.open === "1") {
-            placesModal.style.transform = `translateY(${height}px)`
+            placesModal.style.transform = `translateY(${getModalHeight()}px)`
             e.target.dataset.open = "0";
             arrowIcon.classList.add("rotate-180");
         } else {
@@ -120,5 +121,11 @@
                 place.classList.add("ring-red-600", "ring-2"); 
             }
         })
+    })
+    
+    window.addEventListener("resize", () => {
+       if (placesBtn.dataset.open !== "1") {
+           placesModal.style.transform = `translateY(${getModalHeight()}px)`
+       }
     })
 </script>
