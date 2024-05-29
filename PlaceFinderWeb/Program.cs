@@ -1,4 +1,6 @@
+using PlaceFinderWeb.Interfaces;
 using PlaceFinderWeb.Models;
+using PlaceFinderWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<DatabaseContext>();
+builder.Services.AddScoped<IPlaceService, PlaceService>();
 
 var app = builder.Build();
 
