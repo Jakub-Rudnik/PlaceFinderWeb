@@ -2,7 +2,7 @@
     currClickedPlace: null
 };
 
-let map = L.map('map').setView([50.667730, 17.928600], 10);
+let map = L.map('map').setView([50.667730, 17.928600], 5);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 20,

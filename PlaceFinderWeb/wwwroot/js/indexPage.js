@@ -3,6 +3,7 @@ const placesBtn = document.querySelector("#showHidePlaces");
 const arrowIcon = document.querySelector("#arrowIcon");
 const placesModal = document.querySelector("#placesModal");
 const placesContainer = document.querySelector("#placesContainer");
+const contextMenu = document.querySelector("#contextMenu");
 const PLACES_MODAL_TOP_BAR_HEIGHT = document.querySelector("#showHidePlaces").clientHeight;
 let popups = [];
 
@@ -10,21 +11,9 @@ function getModalHeight() {
     return placesModal.clientHeight - PLACES_MODAL_TOP_BAR_HEIGHT;
 }
 
-async function fetchPlaces() {
-    const res = await fetch("/Places");
-    return res.json();
-}
-
-const places = await fetchPlaces();
-
 places.forEach(place => {
-   
-    console.log(place)
-    
     const latitude = Number(place.latitude);
     const longitude = Number(place.longitude);
-   
-    console.log(latitude, longitude)
     
     popups.push(new L.popup([latitude, longitude], {content: `
            <div class="flex flex-col items-right justify-center gap-4 w-full">
@@ -84,5 +73,44 @@ map.addEventListener("popupopen", (e) => {
 window.addEventListener("resize", () => {
     if (placesBtn.dataset.open !== "1") {
         placesModal.style.transform = `translateY(${getModalHeight()}px)`
+    }
+})
+
+map.addEventListener("contextmenu", (e) => {
+    contextMenu.classList.add("flex");
+    contextMenu.classList.remove("hidden");
+    
+    const mouseX = e.containerPoint.x;
+    const mouseY = e.containerPoint.y;
+    const menuHeight = contextMenu.getBoundingClientRect().height;
+    const menuWidth = contextMenu.getBoundingClientRect().width;
+    const windowWidth = e.target._size.x;
+    const windowHeight =  e.target._size.y
+   
+    if (windowWidth - mouseX < menuWidth) {
+        contextMenu.style.left = 'auto';
+        contextMenu.style.right = `${windowWidth - mouseX}px`;
+        contextMenu.style.top = `${mouseY + menuHeight/2}px`;
+        
+        if (windowHeight - mouseY < menuHeight) {
+            contextMenu.style.top = `${mouseY - menuHeight/2}px`;
+        }
+    } else {
+        contextMenu.style.right = 'auto';
+        contextMenu.style.left = `${mouseX}px`;
+        contextMenu.style.top = `${mouseY + menuHeight/2}px`;
+        
+        if (windowHeight - mouseY < menuHeight) {
+            contextMenu.style.top = `${mouseY - menuHeight/2}px`;
+        }
+    }
+   
+    contextMenu.children[1].innerText = `${e.latlng.lat}, ${e.latlng.lng}`
+})
+
+map.addEventListener("mousedown", (e) => {
+    if (contextMenu.classList.contains("flex")) {
+        contextMenu.classList.add("hidden");
+        contextMenu.classList.remove("flex");
     }
 })

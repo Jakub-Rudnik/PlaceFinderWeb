@@ -15,12 +15,8 @@ public class IndexModel : PageModel
     public IndexModel(DatabaseContext context)
     {
         _placeService = new PlaceService(context);
-
-        
         
         Places = _placeService.ReadAll();
-
-        
     }
 
     public void OnGet()
