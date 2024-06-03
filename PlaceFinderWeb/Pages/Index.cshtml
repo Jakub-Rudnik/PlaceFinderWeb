@@ -3,29 +3,33 @@
 @{
     ViewData["Title"] = "Home page";
 }
-
-<div id="contextMenu" class="hidden flex-col p-2 min-w-40 max-w-64 bg-white rounded-xl fixed z-[5000] border-2 border-gray-30">
-    <div class="flex hover:bg-gray-100 rounded-lg px-5 py-2 hover:cursor-pointer w-full" >Dodaj miejsce</div>
-    <div class="flex hover:bg-gray-100 rounded-lg px-5 py-2 hover:cursor-pointer w-full" >48.8584, 2.2945</div>
+<div class="h-0 overflow-hidden fixed z-[5000] transition-[height] duration-200" id="contextMenuContainer">
+    <div id="contextMenu" class="flex flex-col p-2 min-w-40 max-w-64 bg-white rounded-xl border-2 border-gray-300">
+        <a id="contextMenuCreateLink" >
+            <div id="contextMenuAddPlace" class="flex hover:bg-gray-100 rounded-lg px-5 py-2 hover:cursor-pointer w-full">Add Place</div>
+        </a>
+        <div id="contextMenuLatLang" class="flex hover:bg-gray-100 rounded-lg px-5 py-2 hover:cursor-pointer w-full">
+            00.000000000000000, 00.000000000000000
+        </div>
+    </div>
 </div>
-
 <div id="map" class="h-full w-full"></div>
-<div class="fixed bottom-0 z-[1000] w-full bg-white rounded-t-[20px] flex flex-col border-gray-300 border-t-2 transition-transform placesModal"  id="placesModal">
-    <div class="flex w-full items-center justify-center hover:bg-gray-100 hover:cursor-pointer" id="showHidePlaces" data-open="1" title="Otwórz/Zamknij panel z miejscami">
+<div class="fixed bottom-0 z-[1000] w-full bg-white rounded-t-[20px] flex flex-col border-gray-300 border-t-2 transition-transform duration-300 placesModal"  id="placesModal">
+    <div class="flex w-full items-center justify-center hover:bg-gray-100 hover:cursor-pointer rounded-t-[20px]" id="showHidePlaces" data-open="1" title="Otwórz/Zamknij panel z miejscami">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition-transform" id="arrowIcon">
             <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
         </svg>
     </div>
     <div class="w-full overflow-auto" id="placesContainer">
-        <div class="h-max sm:h-auto w-full sm:w-max flex flex-col sm:flex-row items-center justify-center gap-5 p-5" >
+        <div class="h-max sm:h-auto w-full sm:w-max flex flex-col sm:flex-row items-stretch justify-center gap-5 p-5" >
             @foreach (var place in Model.Places)
             {
                 <div class="flex flex-col flex-1 md:flex-row w-full sm:max-w-96 items-right justify-center gap-4 focus:ring-red-600 rounded-xl border-2 border-gray-300 p-4 hover:cursor-pointer hover:bg-gray-100 transition place ring-offset-2 focus:ring-2 focus:ring-inset" data-latitude="@place.Latitude" data-longitude="@place.Longitude" data-popup="@place.Id">
-                    <img src="@place.ImageUrl" class="h-24 w-full md:w-32 object-cover rounded-lg">
+                    <img src="images/places/@place.ImageUrl" class="h-24 w-full md:w-32 object-cover rounded-lg">
                     <div class="flex flex-col justify-between gap-4">
                         <div class="flex flex-col items-start justify-right">
                             <h2 class="text-xl font-bold">@place.Name</h2>
-                            <p class="m-none text-sm line-clamp-2">@place.Description</p>
+                            <p class="m-none text-sm line-clamp-2 break-all">@place.Description</p>
                         </div>
                         <div class="flex gap-4">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

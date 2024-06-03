@@ -134,11 +134,19 @@
 }
 
 .placesModal {
-  height: calc(100% - 56px)
+  height: calc(100% - 64px)
 }
 
 @media (min-width: 640px) {
   .placesModal {
     height: auto;
   }
+}
+
+.input {
+  @apply block w-full border-2 border-gray-300 px-3.5 py-2 placeholder:text-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 sm:text-sm sm:leading-6 outline-none rounded-xl
+}
+
+.btn {
+  @apply flex w-full gap-2 items-center justify-center rounded-xl bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600
 }

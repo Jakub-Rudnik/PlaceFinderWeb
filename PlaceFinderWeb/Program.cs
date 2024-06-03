@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using PlaceFinderWeb.Interfaces;
 using PlaceFinderWeb.Models;
+using PlaceFinderWeb.Persistence;
 using PlaceFinderWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<DatabaseContext>();
+builder.Services.AddDbContext<PlaceFinderDbContext>(option => option.UseSqlite("Data Source=PlaceFinder.db"));
 builder.Services.AddScoped<IPlaceService, PlaceService>();
 
 var app = builder.Build();

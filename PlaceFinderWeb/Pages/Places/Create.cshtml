@@ -1,0 +1,55 @@
+﻿@page "{id?}"
+@model PlaceFinderWeb.Pages.Places.Create
+
+@{
+    Layout = "Shared/_Layout";
+}
+
+<div class="w-full flex justify-center">
+    <form method="post" enctype="multipart/form-data">
+        <div class="flex flex-col mt-5 gap-6 items-start">
+            <h2 class="text-2xl md:text-3xl font-bold">Add place</h2>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <label asp-for="Place.Latitude" class="block text-sm font-semibold leading-6"></label>
+                    <div class="mt-2.5">
+                        <input asp-for="Place.Latitude" type="text" class="input" pattern="^(\\+|-)?(?:90(?:(?:\.0{1,14})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,14})?))$">
+                    </div>
+                    <span asp-validation-for="Place.Latitude"></span>
+                </div>
+                <div>
+                    <label asp-for="Place.Longitude" class="block text-sm font-semibold leading-6"></label>
+                    <div class="mt-2.5">
+                        <input type="text"  asp-for="Place.Longitude" class="input" pattern="^(\\+|-)?(?:180(?:(?:\.0{1,14})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,14})?))$">
+                    </div>
+                    <span asp-validation-for="Place.Longitude"></span>
+                </div>
+            </div>
+            <div class="w-full">
+                <label asp-for="Place.Name" class="block text-sm font-semibold leading-6"></label>
+                <div class="mt-2.5">
+                    <input type="text" asp-for="Place.Name" class="input">
+                </div>
+                <span asp-validation-for="Place.Name" class="text-danger"></span>
+            </div>
+            <div class="w-full">
+                <label asp-for="Place.Description" class="block text-sm font-semibold leading-6"></label>
+                <div class="mt-2.5">
+                    <textarea type="text"  asp-for="Place.Description" class="input"></textarea>
+                </div>
+                <span asp-validation-for="Place.Name" class="text-danger"></span>
+            </div>
+            <div class="w-full">
+                <label asp-for="PlaceImage" class="block text-sm font-semibold leading-6"></label>
+                <div class="mt-2.5">
+                    <input type="file" asp-for="PlaceImage" accept=".jpg, .png" class="input"/>
+                </div>
+                <span asp-validation-for="PlaceImage" class="text-danger"></span>
+            </div>
+            <button class="btn" type="submit">
+                Add place
+            </button>
+        </div>
+    </form>
+</div>

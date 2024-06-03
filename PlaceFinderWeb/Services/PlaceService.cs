@@ -1,16 +1,20 @@
 ﻿using PlaceFinderWeb.Interfaces;
 using PlaceFinderWeb.Models;
+using PlaceFinderWeb.Pages;
+using PlaceFinderWeb.Persistence;
 
 namespace PlaceFinderWeb.Services;
 
 public class PlaceService: IPlaceService
 {
-    private readonly DatabaseContext _context;
+    private readonly PlaceFinderDbContext _dbContext;
 
-    public PlaceService(DatabaseContext context)
+    public PlaceService(PlaceFinderDbContext dbContext)
     {
-        _context = context;
+        _dbContext = dbContext;
     }
+
+    
     
     public List<Place> ReadAll()
     {
