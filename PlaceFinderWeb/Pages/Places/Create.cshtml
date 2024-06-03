@@ -1,4 +1,4 @@
-﻿@page "{id?}"
+﻿@page
 @model PlaceFinderWeb.Pages.Places.Create
 
 @{
@@ -53,3 +53,14 @@
         </div>
     </form>
 </div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const latitude = urlParams.get('latitude');
+    const longitude = urlParams.get('longitude');
+    
+    if (latitude && longitude) {
+        document.querySelector('input[name="Place.Latitude"]').value = latitude;
+        document.querySelector('input[name="Place.Longitude"]').value = longitude;
+    }
+</script>

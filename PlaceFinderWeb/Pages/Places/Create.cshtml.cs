@@ -16,12 +16,6 @@ public class Create : PageModel
         _dbContext = dbContext;
         _environment = environment;
     }
-    
-    [FromQuery(Name = "latitude")]
-    public string Latitude { get; set; }
-    
-    [FromQuery(Name = "longitude")]
-    public string Longitude { get; set; }
 
     [BindProperty] public Place 
     Place { get; set; } = default!;
@@ -31,11 +25,6 @@ public class Create : PageModel
     
     public IActionResult OnGet()
     {
-        if (Longitude != "" && Latitude != "")
-        {
-           Place.Latitude = Latitude;
-           Place.Longitude = Longitude;
-        }
         return Page();
     }
     
@@ -43,14 +32,14 @@ public class Create : PageModel
     {
         
         ModelState.Remove("Place.ImageUrl");
-        if (!ModelState.IsValid || _dbContext.Places == null || Place == null)
-        {
-            return Page();
-        }
+        // if (!ModelState.IsValid) 
+        // {
+        //     return Page();
+        // }
             
         string uniqueFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + PlaceImage.FileName;
         Place.ImageUrl = uniqueFileName;
-
+       
         var imageFile = Path.Combine(_environment.WebRootPath, "images", "places", uniqueFileName);
 
         await using var fileStream = new FileStream(imageFile, FileMode.Create);
