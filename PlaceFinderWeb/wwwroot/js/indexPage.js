@@ -103,7 +103,7 @@ placesCards.forEach(place => place.addEventListener("click", (e) => {
     }
     
     popups.forEach(popup => {
-        if (popup._latlng.latitude === place.dataset.latitude && popup._latlng.longitude === place.dataset.longitude) {
+        if (popup._latlng.lat === Number(place.dataset.latitude) && popup._latlng.lng === Number(place.dataset.longitude)) {
             popup.toggle();
         }
     })
@@ -171,17 +171,24 @@ window.addEventListener("popstate",  (e) => {
     }
     
     if (window.history.state) {
-       if (!popups[window.history.state.placeId - 1].isOpen()) {
-           popups[window.history.state.placeId - 1].toggle();
+        const placeObj = places.find(place => place.id === window.history.state.placeId);
 
-           placesCards.forEach(place => {
-               if (Number(place.dataset.popup) !== window.history.state.placeId) {
-                   place.classList.remove("ring-red-600", "ring-2");
-               } else {
-                   place.classList.add("ring-red-600", "ring-2");
-               }
-           })
-       }
+        console.log(placeObj)
+        
+        popups.forEach(popup => {
+            if (popup._latlng.lat === Number(placeObj.latitude) && popup._latlng.lng === Number(placeObj.longitude)) {
+                if (!popup.isOpen()) {
+                    popup.toggle();
+                    placesCards.forEach(place => {
+                        if (Number(place.dataset.popup) !== window.history.state.placeId) {
+                            place.classList.remove("ring-red-600", "ring-2");
+                        } else {
+                            place.classList.add("ring-red-600", "ring-2");
+                        }
+                    })
+                }
+            }
+        })
     }
 });
 
