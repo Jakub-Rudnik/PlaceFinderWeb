@@ -44,7 +44,7 @@ places.forEach(place => {
            <div class="flex flex-col items-right justify-center gap-3 w-full">
                <img src="images//places/${place.imageUrl}" alt="${place.name}" class="w-full h-32 object-cover rounded-lg">
                <h2 class="text-xl font-bold">${place.name}</h2>
-               <p class="m-none">${place.description}</p>
+               <p class="m-none break-all">${place.description}</p>
            </div>
        `, closeButton: false}));
     L.marker([latitude, longitude]).addTo(map).bindPopup(popups[popups.length - 1]);
@@ -70,10 +70,6 @@ if (placeId !== null) {
         }
         map.setView([place.dataset.latitude, place.dataset.longitude])
     }) 
-    
-    // placesCards[placeIdx].classList.add("ring-red-600", "ring-2");
-    // placesCards[placeIdx].scrollIntoView();
-
 }
 
 placesCards.forEach(place => place.addEventListener("click", (e) => {
