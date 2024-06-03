@@ -1,5 +1,6 @@
 ﻿@page
-@model PlaceFinderWeb.Pages.Places.Create
+@model PlaceFinderWeb.Pages.Places.Edit
+
 
 @{
     Layout = "Shared/_Layout";
@@ -8,7 +9,7 @@
 <div class="p-5 md:p-0 w-full flex justify-center">
     <form method="post" enctype="multipart/form-data">
         <div class="flex flex-col mt-5 gap-6 items-start">
-            <h2 class="text-2xl md:text-3xl font-bold">Add place</h2>
+            <h2 class="text-2xl md:text-3xl font-bold">Edit place</h2>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
                 <div>
@@ -41,26 +42,15 @@
                 <span asp-validation-for="Place.Name" class="text-danger"></span>
             </div>
             <div class="w-full">
-                <label asp-for="PlaceImage" class="block text-sm font-semibold leading-6"></label>
+                <label asp-for="Place.ImageUrl" class="block text-sm font-semibold leading-6"></label>
                 <div class="mt-2.5">
-                    <input type="file" asp-for="PlaceImage" accept=".jpg, .png" class="input"/>
+                    <input type="text" asp-for="Place.ImageUrl" class="input"/>
                 </div>
-                <span asp-validation-for="PlaceImage" class="text-danger"></span>
+                <span  asp-validation-for="Place.ImageUrl" class="text-danger"></span>
             </div>
             <button class="btn" type="submit">
-                Add place
+                Edit place
             </button>
         </div>
     </form>
 </div>
-
-<script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const latitude = urlParams.get('latitude');
-    const longitude = urlParams.get('longitude');
-    
-    if (latitude && longitude) {
-        document.querySelector('input[name="Place.Latitude"]').value = latitude;
-        document.querySelector('input[name="Place.Longitude"]').value = longitude;
-    }
-</script>
