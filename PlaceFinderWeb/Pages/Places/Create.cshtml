@@ -3,6 +3,7 @@
 
 @{
     Layout = "Shared/_Layout";
+    ViewData["Title"] = "Create Place";
 }
 
 <div class="p-5 md:p-0 w-full flex justify-center">
@@ -14,14 +15,14 @@
                 <div>
                     <label asp-for="Place.Latitude" class="block text-sm font-semibold leading-6"></label>
                     <div class="mt-2.5">
-                        <input asp-for="Place.Latitude" type="text" class="input" pattern="^(\\+|-)?(?:90(?:(?:\.0{1,14})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,14})?))$">
+                        <input asp-for="Place.Latitude" type="text" class="input" pattern="^(\\+|-)?(?:90(?:(?:\.0{1,20})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,14})?))$">
                     </div>
                     <span asp-validation-for="Place.Latitude"></span>
                 </div>
                 <div>
                     <label asp-for="Place.Longitude" class="block text-sm font-semibold leading-6"></label>
                     <div class="mt-2.5">
-                        <input type="text"  asp-for="Place.Longitude" class="input" pattern="^(\\+|-)?(?:180(?:(?:\.0{1,14})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,14})?))$">
+                        <input type="text"  asp-for="Place.Longitude" class="input">
                     </div>
                     <span asp-validation-for="Place.Longitude"></span>
                 </div>

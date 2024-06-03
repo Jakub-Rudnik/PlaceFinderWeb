@@ -32,10 +32,10 @@ public class Create : PageModel
     {
         
         ModelState.Remove("Place.ImageUrl");
-        // if (!ModelState.IsValid) 
-        // {
-        //     return Page();
-        // }
+        if (!ModelState.IsValid) 
+        {
+            return Page();
+        }
             
         string uniqueFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + PlaceImage.FileName;
         Place.ImageUrl = uniqueFileName;
